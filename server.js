@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// app.use(express.static("public"));
+app.use(express.static("public"));
 
 const messages = [
   {
@@ -23,8 +23,7 @@ const messages = [
 //This array is our "data store".
 app.get("/", function (req, res) {
   // console.log("Server is up");
-  res.send("testing");
-  // res.sendFile(__dirname + "./public/index.html");
+  res.sendFile(__dirname + "./public/index.html");
 });
 
 app.get("/messages", (req, res) => {
