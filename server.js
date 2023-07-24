@@ -20,6 +20,27 @@ const messages = [
   },
 ];
 
+// level 1
+// [X] Create a new message
+// [X] Read all messages
+// [ ] Read one message specified by an ID
+// [ ] Delete a message, by ID
+
+// level 2
+// [x] reject requests to create messages if the message objects have an empty or missing text or from property.
+// [x] In this case your server should return a status code of 400.
+
+// level 3
+// [ ] Read _only_ messages whose text contains a given substring: `/messages/search?text=express`
+
+// level 4
+// [ ] store a timestamp in each message object, in a field called `timeSent`.
+// [ ] This should be set to the current time when the server first receives the message. This should be a DateTime object, which can be created with `new Date()`. It will NOT be submitted by the client.
+
+// level 5
+// [ ] add support for the client to be able to _update_ a message's `text` or `from` property. We'll cover this in the next week of the module, but you can research it easily.
+// [ ] Your server should NOT update the `timeSent` timestamp property during an update, if the client passes it back to you.
+
 //This array is our "data store".
 app.get("/", function (req, res) {
   // console.log("Server is up");
