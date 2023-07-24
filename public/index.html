@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Welcome to CYF Chat</title>
+  </head>
+  <body>
+    <h1>CYF Chat</h1>
+    <h2>Send a message</h2>
+    <form action="/messages" method="post">
+      <p>
+        Name: <input type="text" name="from" placeholder="Your Name" /> <br />
+        Message: <input type="text" name="text" placeholder="The message..." />
+        <br />
+      </p>
+      <button type="submit">Send</button>
+    </form>
+
+    <a href="#" onclick="loadMessages()">See all messages</a>
+    <div id="messageContainer">
+      <!-- Messages will be displayed here -->
+    </div>
+
+    <script>
+      function loadMessages() {
+        const messageContainer = document.getElementById("messageContainer");
+
+        // Clear the message container before fetching new messages
+        messageContainer.innerHTML = "";
+
+        // Fetch the messages using AJAX
+        fetch("/messages")
+          .then((response) => response.json())
+          .then((data) => {
+            // Process the data and display the messages in the message container
+            data.forEach((message) => {
+              const div = document.createElement("div");
+              div.innerHTML = `
+            <p><strong>From: </strong>${message.from}</p>
+            <p><strong>Message: </strong>${message.text}</p>
+            <hr />
+          `;
+              messageContainer.appendChild(div);
+            });
+          })
+          .catch((error) => console.error("Error fetching messages:", error));
+      }
+    </script>
+  </body>
+</html>
