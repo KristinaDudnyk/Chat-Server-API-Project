@@ -1,7 +1,9 @@
 const express = require("express");
-const app = express();
-const PORT = 3001;
 const cors = require("cors");
+
+const PORT = 3001;
+
+const app = express();
 
 app.use(cors());
 
@@ -22,7 +24,7 @@ const messages = [
 
 app.get("/", function (req, res) {
   console.log("Server is up");
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "./public/index.html");
 });
 
 app.get("/messages", (req, res) => {
