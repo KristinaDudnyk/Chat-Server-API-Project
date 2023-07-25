@@ -21,15 +21,15 @@ const messages = [
 // level 1
 // [X] Create a new message
 // [X] Read all messages
-// [ ] Read one message specified by an ID
-// [ ] Delete a message, by ID
+// [x] Read one message specified by an ID
+// [x] Delete a message, by ID
 
 // level 2
 // [x] reject requests to create messages if the message objects have an empty or missing text or from property.
 // [x] In this case your server should return a status code of 400.
 
 // level 3
-// [ ] Read _only_ messages whose text contains a given substring: `/messages/search?text=express`
+// [x] Read _only_ messages whose text contains a given substring: `/messages/search?text=express`
 
 // level 4
 // [ ] store a timestamp in each message object, in a field called `timeSent`.
@@ -61,9 +61,10 @@ app.post("/messages", (req, res) => {
     res.status(400).send("Your missing everything");
   } else if (from && text) {
     messages.push({
-      id: messages.length + 1,
+      id: messages.length,
       from: from,
       text: text,
+      timeSent: new Date(),
     });
     res.status(201).redirect("/");
   }
@@ -85,19 +86,46 @@ app.post("/messages", (req, res) => {
 // });
 
 app.get("/message", (req, res) => {
-  // const { id: id } = req.params;
   const ID = Number(req.query.id);
   const messageById = messages.find((element) => element.id === ID);
 
-  console.log("Requested req.query.id:", req.query.id);
-  console.log("Requested ID:", ID);
-  console.log("Message Found:", messageById);
+  // console.log("Requested req.query.id:", req.query.id);
+  // console.log("Requested ID:", ID);
+  // console.log("Message Found:", messageById);
 
   if (!messageById) {
     res.status(404).send(`Message with ID: ${ID} was not found`);
   } else {
     res.status(200).send(messageById);
   }
+});
+
+app.delete("/message", (req, res) => {
+  const ID = Number(req.query.id);
+  const messageById = messages.findIndex((element) => element.id === ID);
+
+  if (messageById >= 0) {
+    messages.splice(messageById, 1);
+    return res.status(201).send("success");
+  } else {
+    return res.status(404).send(`there is no such a message with id : ${ID}`);
+  }
+});
+
+app.get("/messages/search", (req, res) => {
+  const searchInput = req.query.input;
+  const filteredMessages = messages.filter((element) =>
+    element.text.toLowerCase().includes(searchInput)
+  );
+  console.log("searchInput:", req.query.input);
+  console.log("filteredMessages:", filteredMessages);
+
+  if (!filteredMessages) {
+    return res
+      .status(404)
+      .send(`We can't find a message which contains: ${searchInput}`);
+  }
+  return res.status(200).send(filteredMessages);
 });
 
 app.listen(PORT, () => {
