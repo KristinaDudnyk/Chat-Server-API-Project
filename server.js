@@ -1,16 +1,14 @@
+const PORT = 3001;
 const express = require("express");
 const cors = require("cors");
-
-const PORT = 3001;
+const morgan = require("morgan");
 
 const app = express();
 
 app.use(cors());
-
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
 app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const messages = [
   {
@@ -48,8 +46,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/messages", (req, res) => {
-  // res.status(200).send(welcomeMessage);
-  res.send(messages);
+  res.status(200).send(messages);
 });
 
 app.post("/messages", (req, res) => {
@@ -69,6 +66,37 @@ app.post("/messages", (req, res) => {
       text: text,
     });
     res.status(201).redirect("/");
+  }
+});
+
+// app.get("/message", (req, res) => {
+//   // const { id: id } = req.params;
+//   const ID = Number(req.params.id);
+//   const messageById = messages.find((element) => element.id === ID);
+
+//   console.log("Requested ID:", ID);
+//   console.log("Message Found:", messageById);
+
+//   if (!messageById) {
+//     res.status(404).send(`Message with ID: ${ID} was not found`);
+//   } else {
+//     res.status(200).send(messageById);
+//   }
+// });
+
+app.get("/message", (req, res) => {
+  // const { id: id } = req.params;
+  const ID = Number(req.query.id);
+  const messageById = messages.find((element) => element.id === ID);
+
+  console.log("Requested req.query.id:", req.query.id);
+  console.log("Requested ID:", ID);
+  console.log("Message Found:", messageById);
+
+  if (!messageById) {
+    res.status(404).send(`Message with ID: ${ID} was not found`);
+  } else {
+    res.status(200).send(messageById);
   }
 });
 

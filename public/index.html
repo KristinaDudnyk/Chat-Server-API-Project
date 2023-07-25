@@ -14,6 +14,9 @@
       </p>
       <button type="submit">Send</button>
     </form>
+    <!-- <div id="errorMessagContainer">
+      Messages will be displayed here
+    </div> -->
 
     <a href="#" onclick="loadMessages()">See all messages</a>
     <div id="messageContainer">
@@ -21,6 +24,24 @@
     </div>
 
     <script>
+      // async function loadErrorMessage() {
+      //   const errorMessagContainer = document.getElementById(
+      //     "errorMessagContainer"
+      //   );
+      //   errorMessagContainer.innerHTML = "";
+      //   try {
+      //     const response = await fetch("/messages");
+      //     const status = await response.status
+
+      //     if (status === 400) {
+      //       const textOfError = await response.text
+      //       const paragraf = document.createElement("p");
+      //       paragraf.innerHTML = textOfError;
+      //       errorMessagContainer.appendChild(paragraf)
+      //     }
+      //   }
+      // }
+
       async function loadMessages() {
         const messageContainer = document.getElementById("messageContainer");
 
